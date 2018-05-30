@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`prerender-loader!x.html Imperative DOM, no {{prerender}} field should return serialized HTML 1`] = `
+"<!DOCTYPE html><html><head>
+<title>Basic Demo</title>
+</head>
+<body>
+<div>this counts as SSR</div><script type=\\"text/javascript\\" src=\\"bundle.js\\"></script></body></html>"
+`;
+
+exports[`prerender-loader!x.html default export function, no {{prerender}} field should inject returned HTML into <body> 1`] = `
+"<!DOCTYPE html><html><head>
+<title>export factory returning HTML</title>
+</head>
+<body>
+<div>some returned HTML</div><script type=\\"text/javascript\\" src=\\"bundle.js\\"></script></body></html>"
+`;
+
+exports[`prerender-loader!x.html default export function, with {{prerender}} field should inject returned HTML in place of {{prerender}} 1`] = `
+"<!DOCTYPE html><html><head>
+<title>prerender field demo</title>
+</head>
+<body>
+<div id=\\"wrapper\\">
+<div>more returned HTML</div>
+</div>
+<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script></body></html>"
+`;
+
+exports[`prerender-loader!x.html exported function with no return value should serialize the whole document 1`] = `
+"<!DOCTYPE html><html><head>
+<title>function export with default DOM serialization</title>
+</head>
+<body>
+<div>content injected into the dom</div><script type=\\"text/javascript\\" src=\\"bundle.js\\"></script></body></html>"
+`;
+
+exports[`webpack compilation smoke test (no prerendering) should compile 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+<title>Basic Demo</title>
+</head>
+<body>
+<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script></body>
+</html>
+"
+`;

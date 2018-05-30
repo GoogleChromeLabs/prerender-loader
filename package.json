@@ -1,0 +1,97 @@
+{
+  "name": "prerender-loader",
+  "version": "1.0.0",
+  "description": "Webpack plugin to inline critical CSS and lazy-load the rest.",
+  "main": "dist/prerender-loader.js",
+  "source": "src/index.js",
+  "license": "Apache-2.0",
+  "author": "The Chromium Authors",
+  "contributors": [
+    {
+      "name": "Jason Miller",
+      "email": "developit@google.com"
+    }
+  ],
+  "keywords": [
+    "pre-render",
+    "prerendering",
+    "webpack plugin",
+    "SSR",
+    "performance",
+    "first contentful paint",
+    "FCP"
+  ],
+  "repository": "GoogleChromeLabs/prerender-loader",
+  "scripts": {
+    "build": "microbundle -f cjs --no-compress --external all",
+    "docs": "documentation readme -q --no-markdown-toc -a public -s Usage --sort-order alpha src",
+    "test": "jest --coverage"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageReporters": [
+      "text"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*"
+    ],
+    "watchPathIgnorePatterns": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.0.0",
+    "babel-preset-env": "^1.7.0",
+    "documentation": "^7.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jest": "^21.15.2",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.0.0",
+    "memory-fs": "^0.4.1",
+    "microbundle": "^0.4.4",
+    "raw-loader": "^0.5.1",
+    "webpack": "^4.8.3"
+  },
+  "dependencies": {
+    "jsdom": "^11.11.0",
+    "loader-utils": "^1.1.0"
+  },
+  "peerDependencies": {
+    "webpack": "*",
+    "memory-fs": "*"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard",
+      "plugin:jest/recommended"
+    ],
+    "env": {
+      "browser": false,
+      "node": true
+    },
+    "rules": {
+      "indent": [
+        2,
+        2
+      ],
+      "semi": [
+        2,
+        "always"
+      ],
+      "prefer-const": 1
+    }
+  }
+}
