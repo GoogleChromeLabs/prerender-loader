@@ -24,7 +24,7 @@ import NodeTargetPlugin from 'webpack/lib/node/NodeTargetPlugin';
 import SingleEntryPlugin from 'webpack/lib/SingleEntryPlugin';
 import { DefinePlugin } from 'webpack';
 import MemoryFs from 'memory-fs';
-import { runChildCompiler, getRootCompiler, getBestModuleExport, stringToModule } from './util';
+import { runChildCompiler, getRootCompiler, getBestModuleExport, stringToModule, parseEntry } from './util';
 
 // Used to annotate this plugin's hooks in Tappable invocations
 const PLUGIN_NAME = 'prerender-loader';
@@ -92,7 +92,10 @@ export default function PrerenderLoader (content) {
 async function prerender (parentCompilation, request, options, inject, loader) {
   const parentCompiler = getRootCompiler(parentCompilation.compiler);
   const context = parentCompiler.options.context || process.cwd();
-  const entry = './' + ((options.entry && [].concat(options.entry).pop().trim()) || path.relative(context, parentCompiler.options.entry));
+  const entry = './' + (
+    (options.entry && [].concat(options.entry).pop().trim()) ||
+    path.relative(context, parseEntry(parentCompiler.options.entry))
+  );
 
   const outputOptions = {
     // fix: some plugins ignore/bypass outputfilesystem, so use a temp directory and ignore any writes.

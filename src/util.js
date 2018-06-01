@@ -60,3 +60,18 @@ export function getBestModuleExport (exports) {
 export function stringToModule (str) {
   return 'export default ' + JSON.stringify(str);
 }
+
+/** Use a string, last entry of the Array or the main property of an object. */
+export function parseEntry (rawEntry) {
+  let entry;
+
+  if (typeof rawEntry === 'string') {
+    entry = rawEntry;
+  } else if (Array.isArray(rawEntry)) {
+    entry = rawEntry[rawEntry.length - 1];
+  } else if (typeof rawEntry === 'object') {
+    entry = rawEntry.main || rawEntry[Object.keys(rawEntry)[0]];
+  }
+
+  return entry;
+}
