@@ -14,6 +14,8 @@
  * the License.
  */
 
+import path from 'path'
+
 /**
  * Promisified version of compiler.runAsChild() with error hoisting and isolated output/assets.
  * (runAsChild() merges assets into the parent compilation, we don't want that)
@@ -61,17 +63,20 @@ export function stringToModule (str) {
   return 'export default ' + JSON.stringify(str);
 }
 
-/** Use a string, last entry of the Array or the main property of an object. */
-export function parseEntry (rawEntry) {
-  let entry;
+export function convertPathToRelative (context, entry) {
+  let entryWithRelativePath;
 
-  if (typeof rawEntry === 'string') {
-    entry = rawEntry;
-  } else if (Array.isArray(rawEntry)) {
-    entry = rawEntry[rawEntry.length - 1];
-  } else if (typeof rawEntry === 'object') {
-    entry = rawEntry.main || rawEntry[Object.keys(rawEntry)[0]];
+  if (typeof entry === 'string') {
+    entryWithRelativePath = path.relative(context, entry);
+  } else if (Array.isArray(entry)) {
+    entryWithRelativePath = entry.map(entry => path.relative(context, entry));
+  } else if (typeof entry === 'object') {
+    Object.keys(entry).reduce((acc, key) => {
+      acc[key] = path.relative(context, entry[key]);
+
+      return acc;
+    }, {});
   }
 
-  return entry;
+  return entryWithRelativePath;
 }
