@@ -84,7 +84,7 @@ module.exports = {
 }
 ```
 
-What does all that punctuation mean? Let's breaking the whole loader string
+What does all that punctuation mean? Let's break the whole loader string
 down:
 
 > In Webpack, a module identifier beginning with `!!` will bypass any configured
