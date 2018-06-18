@@ -223,8 +223,12 @@ async function prerender (parentCompilation, request, options, inject, loader) {
   }
 
   // dom.serialize() doesn't properly serialize HTML appended to document.body.
-  return dom.serialize();
   // return `<!DOCTYPE ${window.document.doctype.name}>${window.document.documentElement.outerHTML}`;
+  let serialized = dom.serialize();
+  if (!/^<!DOCTYPE /mi.test(serialized)) {
+    serialized = `<!DOCTYPE html>${serialized}`;
+  }
+  return serialized;
 
   // // Returning or resolving to `null` / `undefined` defaults to serializing the whole document.
   // // Note: this pypasses `inject` because the document is already derived from the template.
