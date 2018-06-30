@@ -156,6 +156,10 @@ async function prerender (parentCompilation, request, options, inject, loader) {
       // suppress console-proxied eval() errors, but keep console proxying
       virtualConsole: new jsdom.VirtualConsole({ omitJSDOMErrors: false }).sendTo(console),
 
+      // `url` sets the value returned by `window.location`, `document.URL`...
+      // Useful for routers that depend on the current URL (such as react-router or reach-router)
+      url: options.documentUrl,
+
       // don't track source locations for performance reasons
       includeNodeLocations: false,
 
@@ -187,12 +191,6 @@ async function prerender (parentCompilation, request, options, inject, loader) {
       window.eval(`(function(exports, module, require){\n${asset.source()}\n})`)(mod.exports, mod, window.require);
       return mod.exports;
     };
-
-    // Let the caller reconfigure the JSDOM instance
-    // Useful for chaning the url, window...
-    if (options.reconfigureJsDom) {
-      options.reconfigureJsDom(dom);
-    }
 
     // Invoke the SSR bundle within the JSDOM document and grab the exported/returned result
     result = window.eval(output + '\nPRERENDER_RESULT');
