@@ -188,6 +188,12 @@ async function prerender (parentCompilation, request, options, inject, loader) {
       return mod.exports;
     };
 
+    // Let the caller reconfigure the JSDOM instance
+    // Useful for chaning the url, window...
+    if (options.reconfigureJsDom) {
+      options.reconfigureJsDom(dom);
+    }
+
     // Invoke the SSR bundle within the JSDOM document and grab the exported/returned result
     result = window.eval(output + '\nPRERENDER_RESULT');
   }
