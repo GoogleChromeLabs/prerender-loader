@@ -46,3 +46,15 @@ exports[`webpack compilation smoke test (no prerendering) should compile 1`] = `
 </html>
 "
 `;
+
+exports[`webpack compilation smoke test (no prerendering) should propagate child compiler errors 1`] = `
+"<!DOCTYPE html>
+<html>
+<head>
+<title>Basic Demo</title>
+</head>
+<body>
+<script type=\\"text/javascript\\" src=\\"bundle.js\\"></script></body>
+</html>
+"
+`;

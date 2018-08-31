@@ -250,12 +250,12 @@ const prerenderedHtml = require('!prerender-loader?string!./app.js');
 
 All options are ... optional.
 
-| Option        | Type    | Default       | Description                                                            |
-| ------------- | ------- | ------------- | ---------------------------------------------------------------------- |
-| `string`      | boolean | false         | Output a JS module exporting an HTML String instead of the HTML itself |
-| `disabled`    | boolean | false         | Bypass the loader entirely (but still respect `options.string`)        |
-| `documentUrl` | string  | 'about:blank' | Change the jsdom's URL (affects `window.location`, `document.URL`...)  |
-| `params`      | object  | null          | Options to pass to your prerender function                             |
+| Option        | Type    | Default            | Description                                                            |
+| ------------- | ------- | ------------------ | ---------------------------------------------------------------------- |
+| `string`      | boolean | false              | Output a JS module exporting an HTML String instead of the HTML itself |
+| `disabled`    | boolean | false              | Bypass the loader entirely (but still respect `options.string`)        |
+| `documentUrl` | string  | 'http://localhost' | Change the jsdom's URL (affects `window.location`, `document.URL`...)  |
+| `params`      | object  | null               | Options to pass to your prerender function                             |
 
 
 ---
