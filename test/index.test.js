@@ -55,6 +55,30 @@ describe('webpack compilation smoke test (no prerendering)', () => {
     expect(html).toMatchSnapshot();
   });
 
+  it('should compile named entries', async () => {
+    const info = await compile('fixtures/basic/index.js', config => {
+      config = withoutPrerender(config) || config;
+      config.entry = { app: config.entry };
+      return config;
+    });
+    expect(info.assets).toHaveLength(2);
+
+    const html = await readFile('fixtures/basic/dist/index.html');
+    expect(html).toMatchSnapshot();
+  });
+
+  it('should compile array entries', async () => {
+    const info = await compile('fixtures/basic/index.js', config => {
+      config = withoutPrerender(config) || config;
+      config.entry = [config.entry];
+      return config;
+    });
+    expect(info.assets).toHaveLength(2);
+
+    const html = await readFile('fixtures/basic/dist/index.html');
+    expect(html).toMatchSnapshot();
+  });
+
   it('should propagate child compiler errors', async () => {
     await expect(compile('fixtures/failure/index.js', withPrerender)).rejects.toMatch(/does-not-exist/);
   });

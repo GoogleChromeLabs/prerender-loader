@@ -14,7 +14,7 @@
  * the License.
  */
 
-import path from 'path'
+import path from 'path';
 
 /**
  * Promisified version of compiler.runAsChild() with error hoisting and isolated output/assets.
@@ -63,20 +63,14 @@ export function stringToModule (str) {
   return 'export default ' + JSON.stringify(str);
 }
 
-export function convertPathToRelative (context, entry) {
-  let entryWithRelativePath;
-
-  if (typeof entry === 'string') {
-    entryWithRelativePath = path.relative(context, entry);
-  } else if (Array.isArray(entry)) {
-    entryWithRelativePath = entry.map(entry => path.relative(context, entry));
-  } else if (typeof entry === 'object') {
-    Object.keys(entry).reduce((acc, key) => {
-      acc[key] = path.relative(context, entry[key]);
-
+export function convertPathToRelative (context, entry, prefix = '') {
+  if (Array.isArray(entry)) {
+    return entry.map(entry => prefix + path.relative(context, entry));
+  } else if (entry && typeof entry === 'object') {
+    return Object.keys(entry).reduce((acc, key) => {
+      acc[key] = prefix + path.relative(context, entry[key]);
       return acc;
     }, {});
   }
-
-  return entryWithRelativePath;
+  return prefix + path.relative(context, entry);
 }
