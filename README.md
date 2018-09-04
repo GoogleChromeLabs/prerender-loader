@@ -35,10 +35,10 @@ Painless universal prerendering for Webpack. Works great with
 - [How does it work?](#how-does-it-work)
 - [Installation](#installation)
 - [Usage](#usage)
-	- [DOM Prerendering](#dom-prerendering)
-	- [String Prerendering](#string-prerendering)
-	- [Injecting content into the HTML](#injecting-content-into-the-html)
-	- [Prerendering JavaScript Files](#prerendering-javascript-files)
+  - [DOM Prerendering](#dom-prerendering)
+  - [String Prerendering](#string-prerendering)
+  - [Injecting content into the HTML](#injecting-content-into-the-html)
+  - [Prerendering JavaScript Files](#prerendering-javascript-files)
 - [Options](#options)
 - [License](#license)
 
@@ -250,11 +250,12 @@ const prerenderedHtml = require('!prerender-loader?string!./app.js');
 
 All options are ... optional.
 
-| Option     | Type    | Default | Description |
-|------------|---------|---------|-------------|
-| `string`   | boolean | false   | Output a JS module exporting an HTML String instead of the HTML itself
-| `disabled` | boolean | false   | Bypass the loader entirely (but still respect `options.string`)
-| `params`   | object  | null    | Options to pass to your prerender function
+| Option        | Type    | Default            | Description                                                            |
+| ------------- | ------- | ------------------ | ---------------------------------------------------------------------- |
+| `string`      | boolean | false              | Output a JS module exporting an HTML String instead of the HTML itself |
+| `disabled`    | boolean | false              | Bypass the loader entirely (but still respect `options.string`)        |
+| `documentUrl` | string  | 'http://localhost' | Change the jsdom's URL (affects `window.location`, `document.URL`...)  |
+| `params`      | object  | null               | Options to pass to your prerender function                             |
 
 
 ---

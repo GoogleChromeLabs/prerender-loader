@@ -156,6 +156,10 @@ async function prerender (parentCompilation, request, options, inject, loader) {
       // suppress console-proxied eval() errors, but keep console proxying
       virtualConsole: new jsdom.VirtualConsole({ omitJSDOMErrors: false }).sendTo(console),
 
+      // `url` sets the value returned by `window.location`, `document.URL`...
+      // Useful for routers that depend on the current URL (such as react-router or reach-router)
+      url: options.documentUrl || 'http://localhost',
+
       // don't track source locations for performance reasons
       includeNodeLocations: false,
 

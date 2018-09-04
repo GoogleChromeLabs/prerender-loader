@@ -132,4 +132,15 @@ describe('prerender-loader!x.html', () => {
       expect(html).toMatchSnapshot();
     });
   });
+
+  const DOCUMENT_URL = 'http://localhost/page';
+
+  describe(`?documentUrl=${DOCUMENT_URL}`, () => {
+    it('should set the value returned by window.location', async () => {
+      const { document } = await compileToHtml('document-url', configure({ string: true, documentUrl: DOCUMENT_URL }));
+
+      // verify that our DOM-generated content has been prerendered into the static HTML:
+      expect(document.body.firstElementChild).toHaveProperty('outerHTML', `<div>${DOCUMENT_URL}</div>`);
+    });
+  });
 });
