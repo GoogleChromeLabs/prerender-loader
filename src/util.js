@@ -14,6 +14,8 @@
  * the License.
  */
 
+import path from 'path'
+
 /**
  * Promisified version of compiler.runAsChild() with error hoisting and isolated output/assets.
  * (runAsChild() merges assets into the parent compilation, we don't want that)
@@ -59,4 +61,22 @@ export function getBestModuleExport (exports) {
 /** Wrap a String up into an ES Module that exports it */
 export function stringToModule (str) {
   return 'export default ' + JSON.stringify(str);
+}
+
+export function convertPathToRelative (context, entry) {
+  let entryWithRelativePath;
+
+  if (typeof entry === 'string') {
+    entryWithRelativePath = path.relative(context, entry);
+  } else if (Array.isArray(entry)) {
+    entryWithRelativePath = entry.map(entry => path.relative(context, entry));
+  } else if (typeof entry === 'object') {
+    Object.keys(entry).reduce((acc, key) => {
+      acc[key] = path.relative(context, entry[key]);
+
+      return acc;
+    }, {});
+  }
+
+  return entryWithRelativePath;
 }

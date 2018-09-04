@@ -35,7 +35,9 @@ export function compile (entry, configDecorator) {
     entry = path.basename(entry);
     let config = {
       context,
-      entry: path.resolve(context, entry),
+      entry: {
+        app: path.resolve(context, entry)
+      },
       output: {
         path: path.resolve(__dirname, path.resolve(context, 'dist')),
         filename: 'bundle.js',

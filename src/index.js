@@ -15,16 +15,15 @@
  */
 
 import os from 'os';
-import path from 'path';
 import jsdom from 'jsdom';
 import loaderUtils from 'loader-utils';
 import LibraryTemplatePlugin from 'webpack/lib/LibraryTemplatePlugin';
 import NodeTemplatePlugin from 'webpack/lib/node/NodeTemplatePlugin';
 import NodeTargetPlugin from 'webpack/lib/node/NodeTargetPlugin';
-import SingleEntryPlugin from 'webpack/lib/SingleEntryPlugin';
 import { DefinePlugin } from 'webpack';
 import MemoryFs from 'memory-fs';
-import { runChildCompiler, getRootCompiler, getBestModuleExport, stringToModule } from './util';
+import { runChildCompiler, getRootCompiler, getBestModuleExport, stringToModule, convertPathToRelative } from './util';
+import { applyEntry } from './webpack-util';
 
 // Used to annotate this plugin's hooks in Tappable invocations
 const PLUGIN_NAME = 'prerender-loader';
@@ -92,7 +91,7 @@ export default function PrerenderLoader (content) {
 async function prerender (parentCompilation, request, options, inject, loader) {
   const parentCompiler = getRootCompiler(parentCompilation.compiler);
   const context = parentCompiler.options.context || process.cwd();
-  const entry = './' + ((options.entry && [].concat(options.entry).pop().trim()) || path.relative(context, parentCompiler.options.entry));
+  const entry = './' + (options.entry && [].concat(options.entry).pop().trim()) || convertPathToRelative(context, parentCompiler.options.entry);
 
   const outputOptions = {
     // fix: some plugins ignore/bypass outputfilesystem, so use a temp directory and ignore any writes.
@@ -125,7 +124,7 @@ async function prerender (parentCompilation, request, options, inject, loader) {
   new LibraryTemplatePlugin('PRERENDER_RESULT', 'var').apply(compiler);
 
   // Kick off compilation at our entry module (either the parent compiler's entry or a custom one defined via `{{prerender:entry.js}}`)
-  new SingleEntryPlugin(context, entry, undefined).apply(compiler);
+  applyEntry(context, entry, compiler);
 
   // Set up cache inheritance for the child compiler
   const subCache = 'subcache ' + request;
