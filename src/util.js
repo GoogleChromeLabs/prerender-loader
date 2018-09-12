@@ -68,7 +68,9 @@ export function convertPathToRelative (context, entry, prefix = '') {
     return entry.map(entry => prefix + path.relative(context, entry));
   } else if (entry && typeof entry === 'object') {
     return Object.keys(entry).reduce((acc, key) => {
-      acc[key] = prefix + path.relative(context, entry[key]);
+      acc[key] = Array.isArray(entry[key])
+        ? entry[key].map(item => prefix + path.relative(context, item))
+        : prefix + path.relative(context, entry[key]);
       return acc;
     }, {});
   }
