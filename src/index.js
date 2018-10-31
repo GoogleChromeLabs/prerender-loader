@@ -145,6 +145,10 @@ async function prerender (parentCompilation, request, options, inject, loader) {
   let result;
   let dom, window, injectParent, injectNextSibling;
 
+  // A promise-like that never resolves and does not retain references to callbacks.
+  function BrokenPromise () {}
+  BrokenPromise.prototype.then = BrokenPromise.prototype.catch = BrokenPromise.prototype.finally = () => new BrokenPromise();
+
   if (compilation.assets[compilation.options.output.filename]) {
     // Get the compiled main bundle
     const output = compilation.assets[compilation.options.output.filename].source();
@@ -180,6 +184,32 @@ async function prerender (parentCompilation, request, options, inject, loader) {
     let counter = 0;
     window.requestAnimationFrame = () => ++counter;
     window.cancelAnimationFrame = () => { };
+
+    // Never prerender Custom Elements: by skipping registration, we get only the Light DOM which is desirable.
+    window.customElements = {
+      define () {},
+      get () {},
+      upgrade () {},
+      whenDefined: () => new BrokenPromise()
+    };
+
+    // Fake MessagePort
+    window.MessagePort = function () {
+      (this.port1 = new window.EventTarget()).postMessage = () => {};
+      (this.port2 = new window.EventTarget()).postMessage = () => {};
+    };
+
+    // Never matches
+    window.matchMedia = () => ({ addListener () {} });
+
+    // Never register ServiceWorkers
+    if (!window.navigator) window.navigator = {};
+    window.navigator.serviceWorker = {
+      register: () => new BrokenPromise()
+    };
+
+    // When DefinePlugin isn't sufficient
+    window.PRERENDER = true;
 
     // Inject a require shim
     window.require = moduleId => {
