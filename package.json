@@ -25,7 +25,8 @@
   "scripts": {
     "build": "microbundle -f cjs --no-compress --external all",
     "docs": "documentation readme -q --no-markdown-toc -a public -s Usage --sort-order alpha src",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "prepare": "npm run build"
   },
   "babel": {
     "presets": [
