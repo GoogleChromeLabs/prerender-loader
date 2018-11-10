@@ -100,8 +100,9 @@ async function prerender (parentCompilation, request, options, inject, loader) {
     filename: FILENAME
   };
 
-  // Only copy over mini-extract-text-plugin (excluding it breaks extraction entirely)
-  const plugins = (parentCompiler.options.plugins || []).filter(c => /MiniCssExtractPlugin/i.test(c.constructor.name));
+  // Only copy over allowed plugins (excluding them breaks extraction entirely).
+  const allowedPlugins = ['MiniCssExtractPlugin', 'ExtractTextPlugin'];
+  const plugins = (parentCompiler.options.plugins || []).filter(c => allowedPlugins.includes(c.constructor.name));
 
   // Compile to an in-memory filesystem since we just want the resulting bundled code as a string
   const compiler = parentCompilation.createChildCompiler('prerender', outputOptions, plugins);
