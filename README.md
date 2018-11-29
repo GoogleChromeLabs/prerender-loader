@@ -182,7 +182,7 @@ export default () => {
 
 In addition to DOM and String prerendering, it's also possible to use a
 combination of the two.  If an application's Webpack entry exports a prerender
-function that doens't return a value, the default DOM serialization will kick
+function that doesn't return a value, the default DOM serialization will kick
 in, just like in DOM prerendering. This means you can use your exported
 prerender function to trigger DOM manipulation ("client-side" rendering), and
 then just let `prerender-loader` handle generating the static HTML for whatever
