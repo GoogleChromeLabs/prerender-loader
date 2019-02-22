@@ -216,7 +216,11 @@ async function prerender (parentCompilation, request, options, inject, loader) {
     window.require = moduleId => {
       const asset = compilation.assets[moduleId.replace(/^\.?\//g, '')];
       if (!asset) {
-        throw Error(`Error:  Module not found. attempted require("${moduleId}")`);
+        try {
+          return require(moduleId);
+        } catch (e) {
+          throw Error(`Error:  Module not found. attempted require("${moduleId}")`);
+        }
       }
       const mod = { exports: {} };
       window.eval(`(function(exports, module, require){\n${asset.source()}\n})`)(mod.exports, mod, window.require);
