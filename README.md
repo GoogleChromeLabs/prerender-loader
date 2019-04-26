@@ -210,7 +210,7 @@ export default () => new Promise(resolve => {
   };
 
   // render into <body> using normal client-side rendering:
-  render(<App />, document.body);
+  renderToString(<App />, document.body);
 });
 ```
 
