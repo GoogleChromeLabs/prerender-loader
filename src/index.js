@@ -67,7 +67,7 @@ export default function PrerenderLoader (content) {
   // @note: this is only used when the entry module exports a String or function
   // that resolves to a String, otherwise the whole document is serialized.
   let inject = false;
-  if (!this.request.match(/.(js|ts)x?$/i)) {
+  if (!this.request.match(/\.(js|ts)x?$/i)) {
     const matches = content.match(PRERENDER_REG);
     if (matches) {
       inject = true;
