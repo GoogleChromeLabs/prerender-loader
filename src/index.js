@@ -109,9 +109,10 @@ async function prerender (parentCompilation, request, options, inject, loader) {
   compiler.context = parentCompiler.context;
   compiler.outputFileSystem = new MemoryFs();
 
-  // Define PRERENDER to be true within the SSR bundle
+  // Define PRERENDER to be true within the SSR bundle, plus any other custom SSR env vars
   new DefinePlugin({
-    PRERENDER: 'true'
+    PRERENDER: 'true',
+    ...(options.env || {})
   }).apply(compiler);
 
   // ... then define PRERENDER to be false within the client bundle
