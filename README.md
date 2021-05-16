@@ -256,6 +256,7 @@ All options are ... optional.
 | `disabled`    | boolean | false              | Bypass the loader entirely (but still respect `options.string`)        |
 | `documentUrl` | string  | 'http://localhost' | Change the jsdom's URL (affects `window.location`, `document.URL`...)  |
 | `params`      | object  | null               | Options to pass to your prerender function                             |
+| `env`         | object  | {}                 | Environment variables to define when building JS for prerendering      |
 
 
 ---
