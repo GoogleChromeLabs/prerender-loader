@@ -14,7 +14,9 @@
  * the License.
  */
 
+import path from 'path';
 import os from 'os';
+import fs from 'fs';
 import jsdom from 'jsdom';
 import loaderUtils from 'loader-utils';
 import LibraryTemplatePlugin from 'webpack/lib/LibraryTemplatePlugin';
@@ -96,7 +98,7 @@ async function prerender (parentCompilation, request, options, inject, loader) {
 
   const outputOptions = {
     // fix: some plugins ignore/bypass outputfilesystem, so use a temp directory and ignore any writes.
-    path: os.tmpdir(),
+    path: path.join(os.tmpdir(), fs.mkdtempSync('prerenderloader')),
     filename: FILENAME
   };
 
