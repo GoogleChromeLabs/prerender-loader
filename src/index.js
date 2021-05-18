@@ -93,6 +93,7 @@ async function prerender (parentCompilation, request, options, inject, loader) {
   const context = parentCompiler.options.context || process.cwd();
   const customEntry = options.entry && ([].concat(options.entry).pop() || '').trim();
   const entry = customEntry ? ('./' + customEntry) : convertPathToRelative(context, parentCompiler.options.entry, './');
+  loader.addDependency(entry);
 
   const outputOptions = {
     // fix: some plugins ignore/bypass outputfilesystem, so use a temp directory and ignore any writes.
