@@ -187,6 +187,10 @@ async function prerender (parentCompilation, request, options, inject, loader) {
     window.requestAnimationFrame = () => ++counter;
     window.cancelAnimationFrame = () => { };
 
+    // Patch window.TextEncoder/window.TextDecoder (which are now standard in modern browsers) with node implementations
+    window.TextEncoder = require('util').TextEncoder
+    window.TextDecoder = require('util').TextDecoder
+
     // Never prerender Custom Elements: by skipping registration, we get only the Light DOM which is desirable.
     window.customElements = {
       define () {},
